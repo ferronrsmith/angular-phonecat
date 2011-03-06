@@ -1,4 +1,18 @@
-# angular-seed — the seed for &lt;angular/&gt; apps
+# &lt;angular/&gt; phonecat demo application
+
+- This project shows how to build an angular application.
+- The app is inspired by [Google phone gallery](http://http://www.google.com/phone/) application.
+- There is no backend for this app. Instead we fake it by fetching static json files from the web
+  server.
+- The project shows how to build the final app commit by commit. Read commit description for
+  explanation of what is going on.
+- The project was bootstrapped by cloning
+  [angular-seed project](https://github.com/angular/angular-seed).
+
+
+
+# Old angular-seed docs (we need to pick and choose what we want to keep)
+
 
 This project is an application skeleton for a typical [angular](http://angularjs.org/) web app. You
 can use it to quickly bootstrap your angular webapp projects and dev environment for these projects.
