@@ -2,9 +2,20 @@
 
 describe('PhonesCtrl', function(){
 
-  it('create phones model with 5 phones', function() {
-    var ctrl = new PhonesCtrl();
+  it('should create phones model with 2 phones fetched from xhr', function() {
+    var scope = angular.scope(),
+        $browser = scope.$service('$browser'),
+        ctrl;
+
+    $browser.xhr.expectGET('phones/phones.json').respond([{name: 'Nexus S'},
+                                                          {name: 'Motorola DROID'}]);
+    ctrl = scope.$new(PhonesCtrl);
+
+    expect(ctrl.phones).toBeUndefined();
+    $browser.xhr.flush();
+
     expect(ctrl.phones).toBeDefined();
-    expect(ctrl.phones.length).toBe(5);
+    expect(ctrl.phones).toEqual([{name: 'Nexus S'},
+                                 {name: 'Motorola DROID'}]);
   });
 });
