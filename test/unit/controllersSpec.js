@@ -4,6 +4,12 @@ describe('controller', function(){
   beforeEach(function(){
     scope = angular.scope();
     $browser = scope.$service('$browser');
+
+    this.addMatchers({
+      toEqualData: function(expected) {
+        return angular.equals(this.actual, expected);
+      }
+    });
   });
 
 
@@ -12,7 +18,7 @@ describe('controller', function(){
     it('should redirect to /phones if no hash', function(){
       $browser.setUrl('http://myserver.com/');
       ctrl = scope.$new(PhonesCtrl);
-      $browser.xhr.expectGET('phones/phones.json').respond([]);
+      $browser.xhr.expectGET('phones/.json').respond([]);
       ctrl.$root.$eval();
       expect($browser.getUrl()).toEqual('http://myserver.com/#/phones');
     });
@@ -20,9 +26,9 @@ describe('controller', function(){
     it('should respond to /phones', function(){
       $browser.setUrl('http://myserver.com/#/phones');
       ctrl = scope.$new(PhonesCtrl);
-      $browser.xhr.expectGET('phones/phones.json').respond([]);
+      $browser.xhr.expectGET('phones/.json').respond([]);
       ctrl.$root.$eval();
-      expect(scope.$service('$route').current.controller).toEqual(PhoneListCtrl);
+      expect(scope.$service('$route').current.controller).toEqualData(PhoneListCtrl);
     });
 
     it('should respond to /phones/abc', function(){
@@ -30,26 +36,26 @@ describe('controller', function(){
       $browser.xhr.expectGET('phones/abc.json').respond([]);
       ctrl = scope.$new(PhonesCtrl);
       ctrl.$root.$eval();
-      expect(scope.$service('$route').current.controller).toEqual(PhoneDetailCtrl);
+      expect(scope.$service('$route').current.controller).toEqualData(PhoneDetailCtrl);
       expect(ctrl.params.phoneId).toEqual('abc');
     });
   });
 
   describe('PhoneListCtrl', function(){
     beforeEach(function() {
-      $browser.xhr.expectGET('phones/phones.json').respond([{name: 'Nexus S'},
-                                                            {name: 'Motorola DROID'}]);
+      $browser.xhr.expectGET('phones/.json').respond([{name: 'Nexus S'},
+                                                      {name: 'Motorola DROID'}]);
       ctrl = scope.$new(PhoneListCtrl);
 
-      expect(ctrl.phones).toBeUndefined();
+      expect(ctrl.phones).toEqual([]);
       $browser.xhr.flush();
     });
 
 
     it('should create phones model with 2 phones fetched from xhr', function() {
       expect(ctrl.phones).toBeDefined();
-      expect(ctrl.phones).toEqual([{name: 'Nexus S'},
-                                   {name: 'Motorola DROID'}]);
+      expect(ctrl.phones).toEqualData([{name: 'Nexus S'},
+                                       {name: 'Motorola DROID'}]);
     });
 
 
@@ -64,9 +70,9 @@ describe('controller', function(){
       scope.params = {phoneId:'xyz'};
       $browser.xhr.expectGET('phones/xyz.json').respond({name:'phone xyz'});
       ctrl = scope.$new(PhoneDetailCtrl);
-      expect(ctrl.phone).toBeUndefined();
+      expect(ctrl.phone).toEqualData({});
       $browser.xhr.flush();
-      expect(ctrl.phone).toEqual({name:'phone xyz'});
+      expect(ctrl.phone).toEqualData({name:'phone xyz'});
     });
 
   });

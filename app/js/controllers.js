@@ -17,20 +17,11 @@ function PhonesCtrl($route) {
   });
 }
 
-function PhoneListCtrl($xhr) {
-  var self = this;
-
-  self.orderProp = 'age';
-
-  $xhr('GET', 'phones/phones.json', function(code, response) {
-    self.phones = response;
-  });
+function PhoneListCtrl(Phone_) {
+  this.orderProp = 'age';
+  this.phones = Phone_.query();
 }
 
-function PhoneDetailCtrl($xhr) {
-  var self = this;
-
-  $xhr('GET', 'phones/' + this.params.phoneId + '.json', function(code, response) {
-    self.phone = response;
-  });
+function PhoneDetailCtrl(Phone_) {
+  this.phone = Phone_.get({phoneId:this.params.phoneId});
 }
