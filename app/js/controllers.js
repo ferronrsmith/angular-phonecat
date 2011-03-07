@@ -27,6 +27,10 @@ function PhoneListCtrl($xhr) {
   });
 }
 
-function PhoneDetailCtrl() {
+function PhoneDetailCtrl($xhr) {
+  var self = this;
 
+  $xhr('GET', 'phones/' + this.params.phoneId + '.json', function(code, response) {
+    self.phone = response;
+  });
 }
