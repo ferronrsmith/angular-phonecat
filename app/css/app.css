@@ -82,3 +82,16 @@ ul.specs dt {
 h1 {
   border-bottom: 1px solid gray;
 }
+
+.butter-bar {
+  display: none;
+}
+
+.butter-bar.show {
+  display: block;
+  position: absolute;
+  background: yellow;
+  border: 1px solid #b4b400;
+  margin: 0 50%;
+  padding: .5em 2em;
+}}
